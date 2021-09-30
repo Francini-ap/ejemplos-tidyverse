@@ -192,6 +192,14 @@ covid_positivos_nuevos_promedio_x_mes
 
 ```
 
+```{r rios histograma}
+
+#Histograma Simple
+rios %>%
+ggplot ( aes (x = pandora))+
+  geom_histogram ()
+
+```
 
 
 
