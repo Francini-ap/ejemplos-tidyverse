@@ -72,7 +72,7 @@ rios %>% slice_head(n = 10) %>%  slice_sample(n = 2)
 slice_tail(slice_head(rios, n = 10), n = 2)
 ```
 
-```{r cambiar nombres}
+```{r cambiar nombres }
 # Cambio de nombre de las columnas mediante rename()
 rios <-
   rios %>%
@@ -91,47 +91,73 @@ rios <-
          promedio = (pandora + banano) / 2)
 ```
 
+```{r renombrar columnas covid}
+
+# Selección, renombramiento y conversión de columnas
+covid_columnas_seleccionadas <-
+  covid %>%
+  select(FECHA, muj_posi, hom_posi) %>%
+  rename(
+    fecha = FECHA,
+    positivos_mujeres = muj_posi,
+    positivos_hombres = hom_posi
+  ) %>%
+  mutate(fecha = as.Date(fecha, format = "%d/%m/%Y"))
+
+# Despliegue de una muestra aleatoria de los registros
+slice_sample(covid_columnas_seleccionadas, n = 5)
 
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
-
-When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
-
-```{r cars}
-summary(cars)
 ```
 
-## Including Plots
+```{r filtar}
 
-You can also embed plots, for example:
+# Selección, renombramiento, conversión de columnas y filtrado
+covid_filtrado <-
+  covid %>%
+  select(FECHA, nue_posi) %>%
+  rename(fecha = FECHA, positivos_nuevos = nue_posi) %>%
+  mutate(fecha = as.Date(fecha, format = "%d/%m/%Y")) %>%
+  filter(positivos_nuevos >= 2500)
 
-```{r pressure, echo=FALSE}
-plot(pressure)
+# Despliegue del data frame con los resultados
+covid_filtrado
+
+
 ```
 
-Note that the `echo = FALSE` parameter was added to the code chunk to prevent printing of the R code that generated the plot.
+```{r}
+
+# Selección, renombramiento, filtrado y conversión de columnas
+covid_filtrado_ordenado_x_positivos_nuevos <-
+  covid %>%
+  select(FECHA, nue_posi) %>%
+  rename(fecha = FECHA, positivos_nuevos = nue_posi) %>%
+  mutate(fecha = as.Date(fecha, format = "%d/%m/%Y")) %>%
+  filter(positivos_nuevos >= 2500) %>%
+  arrange(desc(positivos_nuevos))
+
+# Despliegue del data frame con los resultados
+covid_filtrado_ordenado_x_positivos_nuevos
+
+
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
