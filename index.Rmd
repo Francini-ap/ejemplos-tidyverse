@@ -7,7 +7,116 @@ output: html_document
 knitr::opts_chunk$set(echo = TRUE)
 ```
 
-## R Markdown
+## Preparativos
+
+
+
+##Carga de paquetes
+
+```{r carga libreria}
+# dplyr
+library (dplyr)
+
+# ggplot2
+library(ggplot2)
+```
+
+##carda de datoS
+```{r carga-datos}
+## Ríos
+# Carga de datos desde un archivo CSV
+rios <-
+  read.csv(file = 'https://raw.githubusercontent.com/tpb728O-programaciongeoespacialr/2021ii/main/datos/hidrologia/fdc/fdc.csv')
+
+##Covid
+# Carga de datos desde un archivo CSV
+covid <- 
+  read.csv(
+    file='https://raw.githubusercontent.com/tpb728O-programaciongeoespacialr/2021ii/main/datos/minsalud/covid/ultimafecha_CSV_GENERAL.csv', 
+    sep = ","
+  )
+
+```
+## dply
+
+### mutate 
+
+```{r}
+#Estructura date frama
+str(rios)
+```
+
+```{r}
+###Despliegue de los registritos
+
+slice_head(rios, n=10)
+
+#Despligue de los datos (ultimos registros)
+
+slice_tail(rios, n = 10)
+
+#Despligue de los datos (muestra aleatoria)
+
+slice_sample(rios, n = 10)
+```
+
+
+```{r}
+
+## Desplegar los primeros 10 datos y elegir 2 aleatorios
+rios %>% slice_head(n = 10) %>%  slice_sample(n = 2)
+```
+
+```{r}
+## Desplegar los primeros 10 datos y elegir 2 aleatorios
+slice_tail(slice_head(rios, n = 10), n = 2)
+```
+
+```{r cambiar nombres}
+# Cambio de nombre de las columnas mediante rename()
+rios <-
+  rios %>%
+  rename(fecha = Tiempo,
+         pandora = Pandora.mm..637km2.,
+         banano = Banano.mm..90km2.)
+
+
+```
+
+```{r}
+# Conversión de una columna a tipo Date y creación de una nueva columna
+rios <-
+  rios %>%
+  mutate(fecha = as.Date(fecha, format = "%m/%d/%Y"),
+         promedio = (pandora + banano) / 2)
+```
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
 
